@@ -1,0 +1,32 @@
+server:
+  port: 8083  # The port where the API Gateway will run
+
+spring:
+  application:
+    name: API-GATEWAY  # Name of the API Gateway in EUREKS Server
+
+  cloud:
+    gateway:
+      routes:
+        - id: POST-SERVICE
+          uri: lb://POST-SERVICE  # URI of the Post service.
+          predicates:
+            - Path=/api/posts/**  # Route for /api/posts/**
+
+        - id: COMMENT-SERVICE
+          uri: lb://COMMENT-SERVICE  # URI of the Comment service
+          predicates:
+            - Path=/api/comments/**  # Route for /api/comments/**
+
+eureka:                               #Register this with EUREKA servce,
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+
+
+
